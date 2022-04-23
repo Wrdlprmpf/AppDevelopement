@@ -1,22 +1,42 @@
 package com.example.a43
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.view.textservice.TextInfo
+import android.util.Log
 import android.webkit.WebView
+import android.webkit.WebViewClient
 import android.widget.Button
-import android.widget.TextView
+import android.widget.EditText
+import androidx.appcompat.app.AppCompatActivity
+
 
 class MainActivity : AppCompatActivity() {
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        val browser = findViewById<WebView>(R.id.webView)
-        val url = findViewById<TextView>(R.id.textInput)
+        val webView = findViewById<WebView>(R.id.webView)
+        val textInput = findViewById<EditText>(R.id.textInput)
         val button = findViewById<Button>(R.id.button)
 
-        browser.loadUrl("https://www.google.at/")
+        val searchQString = "https://www.google.at/search?hl=de&q="
 
+
+        webView.webViewClient = WebViewClient()
+
+        webView.loadUrl("https://www.google.at/")
+        button.setOnClickListener{
+            val input = textInput.text.toString()
+            if (!(input.startsWith("http")) && !(input.startsWith("www"))) {
+                webView.loadUrl(searchQString + input)
+            } else {
+                webView.loadUrl("https://" + input)
+            }
+
+
+
+        }
     }
+
 }
+
