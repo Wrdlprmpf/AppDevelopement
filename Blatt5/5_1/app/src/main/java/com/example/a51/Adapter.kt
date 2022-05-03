@@ -42,9 +42,13 @@ class Adapter() : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     fun loadList(messages: ArrayList<Message>){
         this.messages = messages
+
+        for (i in 0..messages.size-1){
+            println(messages[i].message.toString())
+        }
     }
 
-    fun getMessageType(position: Int): Int {
+    override fun getItemViewType(position: Int): Int {
         if(messages[position].isMe){
             return sentmsg
         }
@@ -56,7 +60,13 @@ class Adapter() : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
         }
     }
 
-    class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+    fun refreshDataset(modelList:ArrayList<Message>) {
+        this.messages = modelList
+        notifyDataSetChanged()
+
+    }
+
+    class ViewHolder constructor(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val sender: TextView = itemView.findViewById(R.id.messageSender)
         val date: TextView = itemView.findViewById(R.id.messageDate)
         val message: TextView = itemView.findViewById(R.id.messageText)
