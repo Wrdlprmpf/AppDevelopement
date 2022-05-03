@@ -44,6 +44,18 @@ class Adapter() : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
         this.messages = messages
     }
 
+    fun getMessageType(position: Int): Int {
+        if(messages[position].isMe){
+            return sentmsg
+        }
+        else if(messages[position].isMe==false){
+            return recievemsg
+        }
+        else{
+            return 0
+        }
+    }
+
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val sender: TextView = itemView.findViewById(R.id.messageSender)
         val date: TextView = itemView.findViewById(R.id.messageDate)
