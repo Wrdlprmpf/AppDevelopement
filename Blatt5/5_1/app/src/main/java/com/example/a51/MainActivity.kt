@@ -63,9 +63,10 @@ class MainActivity : AppCompatActivity() {
         val recyclerView: RecyclerView = findViewById(R.id.recyclerView)
         recyclerView.layoutManager = LinearLayoutManager(this)
         recyclerView.adapter = adapter
-
         adapter.loadList(this.messages)
         println(adapter.itemCount)
+        
+        recyclerView.scrollToPosition(adapter.itemCount-1)
 
         showSnack(0)
 
@@ -81,6 +82,7 @@ class MainActivity : AppCompatActivity() {
                 messages.add(Message("Me", txt.text.toString(), true))
                 adapter.refreshDataset(messages)
                 showSnack(1)
+                recyclerView.scrollToPosition(adapter.itemCount-1)
             })
             alert.setNegativeButton("cancel", DialogInterface.OnClickListener { dialog, which ->
                 println("Abgebrochen")
