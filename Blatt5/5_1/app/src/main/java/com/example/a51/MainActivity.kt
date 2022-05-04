@@ -1,5 +1,6 @@
 package com.example.a51
 
+import android.content.DialogInterface
 import android.os.Bundle
 import android.view.Gravity
 import android.view.LayoutInflater
@@ -8,22 +9,22 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.LinearLayout
 import android.widget.PopupWindow
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+import com.google.android.material.snackbar.Snackbar
 import java.util.*
 
 
 class MainActivity : AppCompatActivity() {
     private
-    var d = Date(2022,10,10)
+    var d = Date(2022, 10, 10)
 
     var messages = ArrayList<Message>()
     var adapter: Adapter = Adapter()
-    lateinit var btn:Button
-
+    lateinit var btn: Button
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -32,30 +33,32 @@ class MainActivity : AppCompatActivity() {
         var fabBtn = findViewById<FloatingActionButton>(R.id.fab)
         val btn = findViewById<Button>(R.id.popupButton)
         val text = findViewById<EditText>(R.id.popupText)
-        val invbtn:View = findViewById<Button>(R.id.invbutton)
-        val invtext:View = findViewById<EditText>(R.id.invtext)
 
-
-        messages.add(Message("Ivan","Wg",false))
-        messages.add(Message("Ivan","yo aksjdaskdj alksdj alksdj aklsjd lkasjdlkasjdlaksj dlaksjd lkadjsk ad",true))
-        messages.add(Message("Ivan","dude",false))
-        messages.add(Message("Ivan","eyyyyy",false))
-        messages.add(Message("Ivan","ok",true))
-        messages.add(Message("Ivan","ok",true))
-        messages.add(Message("Ivan","ok",true))
-        messages.add(Message("Ivan","ok",true))
-        messages.add(Message("Ivan","ok",true))
-        messages.add(Message("Ivan","ok",true))
-        messages.add(Message("Ivan","ok",true))
-        messages.add(Message("Ivan","ok",true))
-        messages.add(Message("Ivan","ok",true))
-        messages.add(Message("Ivan","ok",true))
-        messages.add(Message("Ivan","eyyyyy",false))
-        messages.add(Message("Ivan","eyyyyy",false))
-        messages.add(Message("Ivan","eyyyyy",false))
-        messages.add(Message("Ivan","eyyyyy",false))
-        messages.add(Message("Ivan","eyyyyy",false))
-
+        messages.add(Message("Ivan", "Wg", false))
+        messages.add(
+            Message(
+                "Ivan",
+                "yo aksjdaskdj alksdj alksdj aklsjd lkasjdlkasjdlaksj dlaksjd lkadjsk ad",
+                true
+            )
+        )
+        messages.add(Message("Ivan", "dude", false))
+        messages.add(Message("Ivan", "eyyyyy", false))
+        messages.add(Message("Ivan", "ok", true))
+        messages.add(Message("Ivan", "ok", true))
+        messages.add(Message("Ivan", "ok", true))
+        messages.add(Message("Ivan", "ok", true))
+        messages.add(Message("Ivan", "ok", true))
+        messages.add(Message("Ivan", "ok", true))
+        messages.add(Message("Ivan", "ok", true))
+        messages.add(Message("Ivan", "ok", true))
+        messages.add(Message("Ivan", "ok", true))
+        messages.add(Message("Ivan", "ok", true))
+        messages.add(Message("Ivan", "eyyyyy", false))
+        messages.add(Message("Ivan", "eyyyyy", false))
+        messages.add(Message("Ivan", "eyyyyy", false))
+        messages.add(Message("Ivan", "eyyyyy", false))
+        messages.add(Message("Ivan", "eyyyyy", false))
 
         val recyclerView: RecyclerView = findViewById(R.id.recyclerView)
         recyclerView.layoutManager = LinearLayoutManager(this)
@@ -64,25 +67,25 @@ class MainActivity : AppCompatActivity() {
         adapter.loadList(this.messages)
         println(adapter.itemCount)
 
-        fabBtn.setOnClickListener{
-            if(invtext.visibility == View.VISIBLE){
-                invtext.setVisibility(View.GONE)
-                invbtn.visibility = View.GONE
-            }
-            else{
-                invbtn.visibility = View.VISIBLE
-                invtext.visibility = View.VISIBLE
-            }
+        showSnack(0)
 
-        }
+        var alert: AlertDialog.Builder = AlertDialog.Builder(this)
 
-        invbtn.setOnClickListener{
-            var newText = findViewById<EditText>(R.id.invtext)
-
-            messages.add(Message("Me",newText.text.toString(),true))
-            adapter.refreshDataset(messages)
-
-
+        fabBtn.setOnClickListener {
+            var alert: AlertDialog.Builder = AlertDialog.Builder(this)
+            alert.setTitle("Message")
+            var txt: EditText = EditText(this)
+            alert.setView(txt)
+            alert.setPositiveButton("send", DialogInterface.OnClickListener { dialog, which ->
+                println("Gesendet")
+                messages.add(Message("Me", txt.text.toString(), true))
+                adapter.refreshDataset(messages)
+                showSnack(1)
+            })
+            alert.setNegativeButton("cancel", DialogInterface.OnClickListener { dialog, which ->
+                println("Abgebrochen")
+            })
+            alert.show()
         }
 
 
@@ -117,7 +120,32 @@ class MainActivity : AppCompatActivity() {
 
 
     }
-    fun popupWindow(){
+
+    fun showSnack(type: Int) {
+        var contextView = findViewById<View>(android.R.id.content)
+
+        if (type == 0) {
+            var contentText =
+                "" + adapter.itemCount.toString() + " Nachrichten. Letzte Nachricht gesendet: " + adapter.messages[adapter.itemCount - 1].date.toString()
+
+            Snackbar.make(contextView, contentText, Snackbar.LENGTH_SHORT)
+                .show()
+        } else if(type == 1){
+            Snackbar.make(contextView, "Neue Nachricht versendet", Snackbar.LENGTH_SHORT)
+                .setAction("UNDO") {
+                    messages.removeLast()
+                    adapter.refreshDataset(messages)
+                    showSnack(2)
+                }
+                .show()
+        }
+        else if(type == 2){
+            Snackbar.make(contextView, "Nachricht wurde zurückgenommen", Snackbar.LENGTH_SHORT)
+                .show()
+        }
+    }
+
+    fun popupWindow() {
 
 
         // inflate the layout of the popup window
