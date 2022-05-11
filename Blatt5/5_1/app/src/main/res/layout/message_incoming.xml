@@ -9,9 +9,9 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
         android:layout_marginTop="5dp"
-        android:background="@color/purple_200"
         android:maxWidth="10dp"
         android:orientation="vertical"
+        android:background="@drawable/shape_incoming"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
@@ -31,9 +31,12 @@
                 android:id="@+id/messageDate"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
                 android:layout_weight="1"
                 android:gravity="right"
+                android:layout_marginTop="2dp"
                 android:text="ThisIsDate" />
+
 
         </LinearLayout>
 

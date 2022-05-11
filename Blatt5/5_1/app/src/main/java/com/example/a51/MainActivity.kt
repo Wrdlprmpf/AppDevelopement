@@ -100,11 +100,18 @@ class MainActivity : AppCompatActivity() {
         }
 
          */
+
         /*
         fabBtn.setOnClickListener{
             // inflate the layout of the popup window
             val inflater = getSystemService(LAYOUT_INFLATER_SERVICE) as LayoutInflater
             val popupView: View = inflater.inflate(R.layout.popup, null)
+
+            val btn = findViewById<Button>(R.id.popupButton)
+            btn.setOnClickListener{
+
+                print("Hello World")
+            }
 
             // create the popup window
             val width = LinearLayout.LayoutParams.WRAP_CONTENT
@@ -119,6 +126,8 @@ class MainActivity : AppCompatActivity() {
         }
 
          */
+
+
 
 
     }

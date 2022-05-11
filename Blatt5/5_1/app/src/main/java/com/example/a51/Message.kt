@@ -10,6 +10,9 @@ class Message(var sender:String,
     var date : String
 
     init{
+        if(isMe){
+            this.sender = "Me"
+        }
         val current = LocalDateTime.now()
         val formatter = DateTimeFormatter.ofPattern("dd-MM HH-mm")
         val formatted = current.format(formatter)
