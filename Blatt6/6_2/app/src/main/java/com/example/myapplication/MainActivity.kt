@@ -1,16 +1,11 @@
 package com.example.myapplication
 
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
-import android.util.Log.DEBUG
 import android.view.Menu
 import android.view.MenuItem
-import android.view.View
 import android.widget.*
-import androidx.appcompat.app.ActionBar
-import org.w3c.dom.Text
+import androidx.appcompat.app.AppCompatActivity
 
 class MainActivity : AppCompatActivity() {
 
@@ -38,7 +33,10 @@ class MainActivity : AppCompatActivity() {
         //Implement of fragment
         val fragmentManager = supportFragmentManager
         val fragmentTransaction = fragmentManager.beginTransaction()
+        fragmentTransaction.setCustomAnimations(R.anim.slide_in_left, R.anim.slide_out_right)
+
         fragmentTransaction.replace(R.id.viewGroup, fragmentOne)
+
 
         if (type == 1) {
             fragmentTransaction.replace(R.id.viewGroup, fragmentOne)

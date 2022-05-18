@@ -1,12 +1,18 @@
 package com.example.myapplication
 
+import android.graphics.Color
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
-import org.w3c.dom.Text
+import android.view.Gravity
+
+import android.widget.TextView
+
+import android.widget.ViewSwitcher
+
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -27,6 +33,9 @@ class FragmentTwo : Fragment(), AdapterView.OnItemSelectedListener {
     lateinit var input:EditText
     lateinit var output:TextView
     var pos = 0
+    lateinit var textSwitcherInput: TextSwitcher
+    lateinit var textSwitcherOutput: TextSwitcher
+    lateinit var textView: TextView
 
     var units = arrayOf<String>(
         "centimeter to inch",
@@ -34,6 +43,22 @@ class FragmentTwo : Fragment(), AdapterView.OnItemSelectedListener {
         "mile to kilometer",
         "seamile to kilometer",
         "yard to meter"
+    )
+
+    var inputUnits = arrayOf<String>(
+        "centimeter",
+        "feet",
+        "mile",
+        "seamile",
+        "yard"
+    )
+
+    var outputUnits = arrayOf<String>(
+        "inch",
+        "inch",
+        "kilometer",
+        "kilometer",
+        "meter"
     )
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -53,6 +78,8 @@ class FragmentTwo : Fragment(), AdapterView.OnItemSelectedListener {
         btn = layout.findViewById<Button>(R.id.buttonFrag)
         input = layout.findViewById<EditText>(R.id.numberFrag)
         output = layout.findViewById<TextView>(R.id.outputFrag)
+        textSwitcherInput = layout.findViewById(R.id.inputTextShort)
+        textSwitcherOutput = layout.findViewById(R.id.outputTextShort)
 
         // Inflate the layout for this fragment
         return layout
@@ -69,10 +96,24 @@ class FragmentTwo : Fragment(), AdapterView.OnItemSelectedListener {
         btn.setOnClickListener{
             conversion()
         }
+
+        textSwitcherInput.setFactory(ViewSwitcher.ViewFactory {
+            textView = TextView(this.activity)
+            textView.setTextColor(Color.WHITE)
+            textView.setGravity(Gravity.LEFT)
+            textView
+        })
+
+        textSwitcherOutput.setFactory(ViewSwitcher.ViewFactory {
+            textView = TextView(this.activity)
+            textView.setTextColor(Color.WHITE)
+            textView.setGravity(Gravity.LEFT)
+            textView
+        })
+
     }
 
     fun conversion() {
-
         val inputText = this.input
         val outputText = this.output
 
@@ -83,12 +124,17 @@ class FragmentTwo : Fragment(), AdapterView.OnItemSelectedListener {
             3 -> outputText.setText((inputText.text.toString().toInt() * 1.852).toString())
             4 -> outputText.setText((inputText.text.toString().toInt() / 1.094).toString())
         }
+    }
 
+    fun animation(){
+        textSwitcherInput.setText(inputUnits[pos])
+        textSwitcherOutput.setText(outputUnits[pos])
     }
 
     override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
         pos = position
         conversion()
+        animation()
     }
 
     override fun onNothingSelected(parent: AdapterView<*>?) {
