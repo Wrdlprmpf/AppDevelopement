@@ -36,8 +36,6 @@ class MainActivity : AppCompatActivity() {
         fragmentTransaction.setCustomAnimations(R.anim.slide_in_left, R.anim.slide_out_right)
 
         fragmentTransaction.replace(R.id.viewGroup, fragmentOne)
-
-
         if (type == 1) {
             fragmentTransaction.replace(R.id.viewGroup, fragmentOne)
 
