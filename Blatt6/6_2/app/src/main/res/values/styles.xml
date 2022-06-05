@@ -3,7 +3,7 @@
     <style name="GreenText" parent="TextAppearance.AppCompat">
         <item name="android:textColor">#00FF00</item>
     </style>
-    <style name="BackgroundChange" parent="android:Theme.Material">
+    <style name="BackgroundChange" parent="android:Theme.Black">
         <item name="android:background">#727272</item>
     </style>
 
